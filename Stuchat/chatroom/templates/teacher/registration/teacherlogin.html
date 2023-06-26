@@ -1,0 +1,23 @@
+{% extends 'student/register/main/main.html' %}
+{% block content %}
+<div class="container text-center">
+    <div class="row my-5">
+        <div class="col-md">
+            <div class="col ">
+                <div class="form form-group">
+                    <div class="form-title">
+                        Register as Teacher
+                    </div>
+                    <form action="" method='post'>
+                        {% csrf_token %}
+                        <input type="email" name="teacheremail" id="email" placeholder="enter email"><br><br>
+                        <input type="password" name="teacherpassword" id="password" placeholder="enter password"><br><br>
+                        <button class="btn btn-button" type="submit">Login</button>
+                    </form>
+                    <a href="{% url 'registerteacher' %}">Register instead</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'student/register/main/main.html' %}
+{% block content %}
+<div class="container text-center">
+    <div class="row my-5">
+        <div class="col-md">
+            <div class="col ">
+                <div class="form form-group">
+                    <div class="form-title">
+                        Register as student
+                    </div>
+                    <form method='POST'>
+                        {% csrf_token %}
+                        <input required="True" type="text" name='studentname'placeholder="enter a valid student name"><br><br>
+                        <input required="True" type="text" name='username'placeholder="enter a valid student username"><br><br>
+                        <input required="True" type="text" name="matricule" placeholder="enter your matricule" id="matricule"><br><br>
+                        <input required="True" type="password" name="studentpassword" id="password" placeholder="enter password"><br><br>
+                        <input required="True" type="file" name="studentimage" accept="media/" id=""><br><br>
+                        <input required="True" type="submit" value="Register" class=" bg-primary btn btn-blog"><br><br>
+                    </form>
+                    <button class="btn btn-button  my-5"><a href="{% url 'studentlogin' %}">Login instead</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+#get{
+    align-items: center;
+    margin-top: 2.5%;
+    align-content: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#get , ul{
+    list-style: none;
+}
+#get,ul li{
+    display: inline-flex;
+    align-items: center;
+    align-content: center;
+}
+#get , ul li a{
+    color: aliceblue;
+    font-size: 120%;
+    text-decoration: none;
+}
+ul li :hover{
+    text-decoration: none;
+    background-color: aqua;
+}
+
+#nav-container{
+    height: 15vh;
+}
