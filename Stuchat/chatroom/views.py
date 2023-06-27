@@ -46,14 +46,10 @@ def registerteacher(request):
         if request.method == 'POST':
             form = teacherregistrationform(request.POST)
             if form.is_valid():
-                newteacher = form.save() 
+                form.save() 
             # Log the user in
-                login(newteacher)
 
                 return redirect('teacherlogin')
-            else:
-                form = teacherregistrationform()
-            return render(request, 'teacher/registration/teacherregistration.html', {'form': form})
         else:
 
             form = teacherregistrationform()

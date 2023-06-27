@@ -10,10 +10,8 @@
                     </div>
                     <form method='post'>
                         {% csrf_token %}
-                        <input required="True" type="text" name='teachername' placeholder="enter a valid student name"><br><br>
-                        <input required="True" type="email" name="teacheremail" placeholder="enter email"><br><br>
-                        <input required="True" type="password" name="teacherpassword" id="password" placeholder="enter password"><br><br>
-                        <input required="True" type="file" name="teacherimage" ><br><br>
+                        
+                        {{ form.as_p }}
 
                         <button class="btn btn-button bg-info" type="submit">Register</button>
                     </form>
