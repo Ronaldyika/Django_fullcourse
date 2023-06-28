@@ -11,4 +11,4 @@ class studentregistrationform(UserCreationForm):
 class teacherregistrationform(forms.ModelForm):
     class Meta:
         model = RegisterTeacher
-        fields = ['teachername','teacheremail','teacherimage','teacherpassword']
+        fields = '__all__'

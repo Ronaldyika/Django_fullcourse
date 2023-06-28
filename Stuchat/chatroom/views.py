@@ -13,9 +13,7 @@ def TeacherLogin(request):
         form = teacherregistrationform(request.POST)
         if form.is_valid():
             newuser = form.save()
-            login(request,newuser)
-
-            return redirect('teachersite')
+            return redirect('teacherlogin')
     return render(request,'teacher/registration/teacherlogin.html')
 
 def StudentLogin(request):
@@ -43,17 +41,17 @@ def Registerstudent(request):
     return render(request,'student/register/studentregistration.html')
 
 def registerteacher(request):
-        if request.method == 'POST':
+    form = teacherregistrationform()
+    if request.method == 'POST':
             form = teacherregistrationform(request.POST)
+            
             if form.is_valid():
                 form.save() 
             # Log the user in
 
                 return redirect('teacherlogin')
-        else:
-
-            form = teacherregistrationform()
-            return render(request, 'teacher/registration/teacherregistration.html', {'form': form})
+    
+    return render(request,'teacher/registration/teacherregistration.html',{'form':form})
 def teachersite(request):
     queryset = RegisterTeacher.objects.all()
     context = {"queryset":queryset}
