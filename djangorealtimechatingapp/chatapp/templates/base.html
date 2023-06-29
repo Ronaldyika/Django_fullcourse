@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div id="header">
+        {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+        <a href="{% url 'logout'Sorry, it seems my previous response got cut off. Here's the complete example of how you can create a real-time chatting application using Django views, URLs, models, and templates without using Django forms:}"></a>
+        {% endif %}
+    </div>
+    {% block content %}
+    
+    {% endblock %}
+</body>
+</html>

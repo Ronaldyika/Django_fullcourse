@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <h1>{{ room.name }}</h1>
+
+        <div id="chat-messages">
+        {% for message in messages %}
+        <div class="message">
+            <span class="username">{{ message.user.username }}</span>
+            <span class="time">{{ message.timestamp|date:"H:i" }}</span>
+            <p>{{ message.text }}</p>
+        </div>
+        {% endfor %}
+        </div>
+
+        <div id="chat-form">
+        <input type="text" id="message-input" name="message" autocomplete="off">
+        <button id="send-button">Send</button>
+        <div id="error-message"></div>
+        </div>
+
+        <script>
+        var room_name = '{{ room.name }}';
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/chat/' + room_name + '/'
+        );
+
+        chatSocket.onmessage = function(event) {
+            var data = JSON.parse(event.data);
+            var message = data.message;
+            var username = data.username;
+            var time = new Date(data.timestamp).toLocaleTimeString();
+
+            var messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.innerHTML = '<span class="username">' + username + '</span> <span class="time">' + time + '</span><p>' + message + '</p>';
+            document.querySelector('#chat-messages').appendChild(messageElement);
+        };
+
+        document.querySelector('#chat-form').onsubmit = function(event) {
+            event.preventDefault();
+            var messageInputDom = document.querySelector('#message-input');
+            var message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'room': room_name
+            }));
+            messageInputDom.value = '';
+        };
+
+        function getMessages() {
+            fetch('{% url "get_messages" room_name %}')
+                .then(response => response.json())
+                .then(data => {
+                    var messages = data.messages;
+                    var messageElements = document.querySelectorAll('.message');
+                    var lastMessageTime = null;
+
+                    if (messageElements.length > 0) {
+                        lastMessageTime = new Date(messageElements[messageElements.length - 1].querySelector('.time').textContent);
+                    }
+
+                    for (var i = 0; i < messages.length; i++) {
+                        var message = messages[i];
+                        var messageTime = new Date(message.timestamp);
+
+                        if (!lastMessageTime || messageTime > lastMessageTime) {
+                            var messageElement = document.createElement('div');
+                            messageElement.classList.add('message');
+                            messageElement.innerHTML = '<span class="username">' + message.user.username + '</span> <span class="time">' + messageTime.toLocaleTimeString() + '</span><p>' + message.text + '</p>';
+                            document.querySelector('#chat-messages').appendChild(messageElement);
+                        }
+                    }
+
+                    setTimeout(getMessages, 1000);
+                });
+        }
+
+        getMessages();
+
+    {% endblock %}
