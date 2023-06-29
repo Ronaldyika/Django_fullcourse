@@ -1,19 +1,27 @@
 from django.shortcuts import render,redirect
-from django.http import HttpRequest
+from django.http import HttpResponse
 from .models import RegisterStudent,RegisterTeacher,Assigment
 from .forms import teacherregistrationform,studentregistrationform
-from django.contrib.auth import login
+from django.contrib.auth import login,authenticate
 
 # Create your views here.
 def index(request):
     return render(request,'index.html')
 
 def TeacherLogin(request):
+    queryset = RegisterTeacher.objects.all()
     if request.method == 'POST':
-        form = teacherregistrationform(request.POST)
-        if form.is_valid():
-            newuser = form.save()
-            return redirect('teacherlogin')
+            teacheremail = request.POST['teacheremail']
+            teacherpassword = request.POST['teacherpassword']
+
+            user = authenticate(request , teacheremail = teacheremail,
+                                teacherpassword = teacherpassword)
+            
+            if user is not None:
+                login(request,user)
+                return redirect('teachersite')
+            else:
+                return render(request,'teacher/registration/teacherlogin.html',{'invalid':'invalid credentials '})
     return render(request,'teacher/registration/teacherlogin.html')
 
 def StudentLogin(request):
@@ -43,13 +51,20 @@ def Registerstudent(request):
 def registerteacher(request):
     form = teacherregistrationform()
     if request.method == 'POST':
-            form = teacherregistrationform(request.POST)
-            
-            if form.is_valid():
-                form.save() 
-            # Log the user in
+        teachername = request.POST['teachername']
+        teacheremail = request.POST['teacheremail']
+        teacherimage = request.POST['teacherimage']
+        teacherpassword = request.POST['teacherpassword']
 
-                return redirect('teacherlogin')
+        new_user = RegisterTeacher.objects.create(teachername = teachername,teacheremail = teacheremail,
+                                    teacherimage = teacherimage,teacherpassword = teacherpassword)
+        
+
+        new_user.save()
+        user = authenticate(teachername = teachername,teacheremail = teacheremail,
+                                    teacherimage = teacherimage,teacherpassword = teacherpassword)
+        login(request,user)
+        return redirect('teacherlogin')
     
     return render(request,'teacher/registration/teacherregistration.html',{'form':form})
 def teachersite(request):
