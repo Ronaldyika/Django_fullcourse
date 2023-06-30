@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <button><a href="{% url 'home' %}">Home</a></button>
+        <h1>Chat with {{ recipient.username }}</h1>
+        <div id="message-container">
+        {% for message in messages %}
+            <div class="row py-4">
+                <div class="col">
+                    <div class="col-md">
+                        <div class="card bg-info">
+                            <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                                <p>{{ message.content }}</p>
+                                <span class="timestamp">{{ message.timestamp }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <form method="post" action="{% url 'send_message' recipient.id %}">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="Type your message...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+{% endblock %}

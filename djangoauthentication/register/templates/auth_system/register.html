@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registration state</title>
+</head>
+<body>
+    <div class="form">
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="firstname" placeholder="enter firstname"><br>
+            <input type="text" name="lastname" placeholder="enter lastname"><br>
+            <input type="text" name="username" placeholder="enter username"><br>
+            <input type="email" name="email" placeholder="enter a valid email"><br>
+            <input type="password" name="password"><br><br>
+            <button class="btn btn-button btn-block">Register</button>
+        </form>
+    </div>
+    
+</body>
+</html>
